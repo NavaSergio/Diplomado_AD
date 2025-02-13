@@ -1,0 +1,40 @@
+Reto: Crea una función que valide si una cadena es una dirección de correo electrónico válida utilizando expresiones regulares. La dirección debe cumplir con los siguientes criterios:
+
+Debe contener un nombre de usuario antes del símbolo @.
+
+Debe contener un dominio después del símbolo @.
+
+El dominio debe tener al menos un punto (.) y al menos dos caracteres después del último punto.
+
+Solución:
+
+Codigo python:
+
+import re
+
+# Función para validar una dirección de correo electrónico
+def validar_correo(correo):
+    patron = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+    return re.match(patron, correo) is not None
+
+# Pruebas
+correos = [
+    "usuario@dominio.com",  # Válido
+    "usuario@dominio",      # Inválido
+    "usuario@dominio.",     # Inválido
+    "usuario@dominio.c",    # Inválido
+    "usuario@dominio.com.mx"  # Válido
+]
+
+for correo in correos:
+    if validar_correo(correo):
+        print(f"{correo} es una dirección de correo válida.")
+    else:
+        print(f"{correo} NO es una dirección de correo válida.")
+Instrucciones para el usuario:
+
+Crea una función validar_correo que utilice una expresión regular para validar si una cadena es una dirección de correo electrónico válida.
+
+Prueba la función con diferentes direcciones de correo para verificar su funcionamiento.
+
+Ejecuta el código y observa los resultados.

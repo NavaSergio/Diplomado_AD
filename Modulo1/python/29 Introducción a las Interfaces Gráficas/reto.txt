@@ -1,0 +1,111 @@
+Reto: Crea una aplicación de registro de usuarios utilizando Tkinter. La aplicación debe permitir al usuario ingresar su nombre, correo electrónico y contraseña, y luego almacenar esta información en una base de datos SQLite. Además, la aplicación debe mostrar una lista de todos los usuarios registrados.
+
+Solución:
+
+Cidigo python:
+
+import tkinter as tk
+from tkinter import messagebox
+import sqlite3
+
+# Configuración de la base de datos
+def get_db_connection():
+    conn = sqlite3.connect('usuarios.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Crear tabla de usuarios si no existe
+def init_db():
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()
+
+# Función para registrar un usuario
+def registrar_usuario():
+    nombre = entry_nombre.get()
+    email = entry_email.get()
+    password = entry_password.get()
+
+    if nombre and email and password:
+        conn = get_db_connection()
+        try:
+            conn.execute('INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)', (nombre, email, password))
+            conn.commit()
+            conn.close()
+            messagebox.showinfo("Éxito", "Usuario registrado correctamente")
+            mostrar_usuarios()
+        except sqlite3.IntegrityError:
+            messagebox.showerror("Error", "El correo electrónico ya está registrado")
+    else:
+        messagebox.showwarning("Advertencia", "Por favor, complete todos los campos")
+
+# Función para mostrar usuarios registrados
+def mostrar_usuarios():
+    lista_usuarios.delete(0, tk.END)
+    conn = get_db_connection()
+    usuarios = conn.execute('SELECT * FROM usuarios').fetchall()
+    conn.close()
+    for usuario in usuarios:
+        lista_usuarios.insert(tk.END, f"{usuario['nombre']} - {usuario['email']}")
+
+# Crear la ventana principal
+ventana = tk.Tk()
+ventana.title("Registro de Usuarios")
+ventana.geometry("400x300")
+
+# Crear componentes de la interfaz
+etiqueta_nombre = tk.Label(ventana, text="Nombre:")
+etiqueta_nombre.pack()
+
+entry_nombre = tk.Entry(ventana)
+entry_nombre.pack()
+
+etiqueta_email = tk.Label(ventana, text="Email:")
+etiqueta_email.pack()
+
+entry_email = tk.Entry(ventana)
+entry_email.pack()
+
+etiqueta_password = tk.Label(ventana, text="Contraseña:")
+etiqueta_password.pack()
+
+entry_password = tk.Entry(ventana, show="*")
+entry_password.pack()
+
+boton_registrar = tk.Button(ventana, text="Registrar", command=registrar_usuario)
+boton_registrar.pack()
+
+etiqueta_lista = tk.Label(ventana, text="Usuarios Registrados:")
+etiqueta_lista.pack()
+
+lista_usuarios = tk.Listbox(ventana)
+lista_usuarios.pack()
+
+# Mostrar usuarios al iniciar la aplicación
+mostrar_usuarios()
+
+ventana.mainloop()
+
+
+
+Instrucciones para el usuario:
+
+Crea una aplicación de registro de usuarios utilizando Tkinter.
+
+Permite al usuario ingresar su nombre, correo electrónico y contraseña.
+
+Almacena la información en una base de datos SQLite.
+
+Muestra una lista de todos los usuarios registrados.
+
+Ejecuta la aplicación y sigue las instrucciones para registrar usuarios y ver la lista de usuarios registrados.

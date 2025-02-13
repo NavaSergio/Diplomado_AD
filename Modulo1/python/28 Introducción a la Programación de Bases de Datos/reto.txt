@@ -1,0 +1,102 @@
+Reto: Crea una aplicación que permita a los usuarios registrarse e iniciar sesión utilizando una base de datos SQLite. La aplicación debe almacenar los usuarios en una tabla y manejar las sesiones de los usuarios.
+
+Solución:
+
+codigo python:
+
+from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3
+
+app = Flask(__name__)
+app.secret_key = 'clave_secreta'
+
+# Configuración de la base de datos
+def get_db_connection():
+    conn = sqlite3.connect('usuarios.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Crear tabla de usuarios si no existe
+def init_db():
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()
+
+# Rutas de la aplicación
+@app.route('/')
+def home():
+    if 'user_id' in session:
+        return f"Bienvenido, {session['user_id']}! <a href='/logout'>Cerrar sesión</a>"
+    return "Bienvenido a la aplicación. <a href='/login'>Iniciar sesión</a> o <a href='/register'>Registrarse</a>"
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        try:
+            conn.execute('INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)', (nombre, email, password))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('login'))
+        except sqlite3.IntegrityError:
+            return "El correo electrónico ya está registrado."
+
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM usuarios WHERE email = ? AND password = ?', (email, password)).fetchone()
+        conn.close()
+
+        if user:
+            session['user_id'] = user['nombre']
+            return redirect(url_for('home'))
+        else:
+            return "Credenciales incorrectas."
+
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('home'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+
+Instrucciones para el usuario:
+
+Crea una aplicación Flask que permita a los usuarios registrarse e iniciar sesión.
+
+Utiliza SQLite para almacenar los usuarios en una base de datos.
+
+Maneja las sesiones de los usuarios utilizando el módulo session de Flask.
+
+Implementa las rutas necesarias para el registro, inicio de sesión y cierre de sesión.
+
+Ejecuta la aplicación y sigue las instrucciones para registrarte, iniciar sesión y cerrar sesión.
+
+Por favor desarrolla los codigos fuentes  del tema 29, debidamente con sus comentarios que incluyan los subtemas para referencia del usuario, para que los usuarios principiantes puedan entenderles. solo un codigo fuente por seccion que tenga todos los elementos de las subseciones que se mencionan. no hacer codigos fuentes de las subseciones.
+
+Al final agrega un codigo que contenga un reto con dificultad alta, con la solucion en los comentarios de como hacerlo y que el usuario haga la solucion

@@ -1,0 +1,86 @@
+Reto con Dificultad Alta
+Reto: Crea una aplicación que permita registrar eventos con marcas de tiempo. La aplicación debe permitir agregar eventos, mostrar todos los eventos registrados y calcular el tiempo transcurrido entre dos eventos seleccionados por el usuario.
+
+Solución:
+
+Codigo python:
+
+# Clase para manejar eventos
+class Evento:
+    def __init__(self, nombre, fecha_hora):
+        self.nombre = nombre
+        self.fecha_hora = fecha_hora
+
+    def __str__(self):
+        return f"{self.nombre} - {self.fecha_hora.strftime('%Y-%m-%d %H:%M:%S')}"
+
+# Función para agregar un evento
+def agregar_evento(eventos):
+    nombre = input("Ingrese el nombre del evento: ")
+    fecha_hora = datetime.now()
+    evento = Evento(nombre, fecha_hora)
+    eventos.append(evento)
+    print(f"Evento '{nombre}' registrado en {fecha_hora.strftime('%Y-%m-%d %H:%M:%S')}")
+
+# Función para mostrar todos los eventos
+def mostrar_eventos(eventos):
+    if not eventos:
+        print("No hay eventos registrados.")
+    else:
+        for i, evento in enumerate(eventos):
+            print(f"{i + 1}. {evento}")
+
+# Función para calcular el tiempo transcurrido entre dos eventos
+def calcular_tiempo_transcurrido(eventos):
+    mostrar_eventos(eventos)
+    if len(eventos) < 2:
+        print("Se necesitan al menos dos eventos para calcular el tiempo transcurrido.")
+        return
+
+    try:
+        indice1 = int(input("Seleccione el primer evento (número): ")) - 1
+        indice2 = int(input("Seleccione el segundo evento (número): ")) - 1
+        evento1 = eventos[indice1]
+        evento2 = eventos[indice2]
+        diferencia = abs(evento2.fecha_hora - evento1.fecha_hora)
+        print(f"Tiempo transcurrido entre {evento1.nombre} y {evento2.nombre}: {diferencia}")
+    except (ValueError, IndexError):
+        print("Selección inválida. Intente nuevamente.")
+
+# Lista para almacenar eventos
+eventos = []
+
+# Menú principal
+while True:
+    print("\nMenú:")
+    print("1. Agregar evento")
+    print("2. Mostrar eventos")
+    print("3. Calcular tiempo transcurrido entre eventos")
+    print("4. Salir")
+    opcion = input("Seleccione una opción: ")
+
+    if opcion == "1":
+        agregar_evento(eventos)
+    elif opcion == "2":
+        mostrar_eventos(eventos)
+    elif opcion == "3":
+        calcular_tiempo_transcurrido(eventos)
+    elif opcion == "4":
+        break
+    else:
+        print("Opción inválida. Intente nuevamente.")
+
+
+Instrucciones para el usuario:
+
+Crea una clase Evento que tenga atributos nombre y fecha_hora.
+
+Implementa métodos para agregar eventos, mostrar todos los eventos y calcular el tiempo transcurrido entre dos eventos seleccionados por el usuario.
+
+Utiliza un menú para interactuar con la aplicación y realizar las operaciones mencionadas.
+
+Ejecuta el código y sigue las instrucciones del menú para registrar eventos y calcular el tiempo transcurrido entre ellos.
+
+Por favor desarrolla los codigos fuentes  del tema 19, debidamente con sus comentarios que incluyan los subtemas para referencia del usuario, para que los usuarios principiantes puedan entenderles. solo un codigo fuente por seccion que tenga todos los elementos de las subseciones que se mencionan. no hacer codigos fuentes de las subseciones.
+
+Al final agrega un codigo que contenga un reto con dificultad alta, con la solucion en los comentarios de como hacerlo y que el usuario haga la solucion

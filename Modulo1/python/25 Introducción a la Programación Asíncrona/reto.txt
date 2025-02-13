@@ -1,0 +1,50 @@
+Reto: Crea una aplicación asíncrona que descargue múltiples archivos desde URLs proporcionadas por el usuario. La aplicación debe mostrar el progreso de cada descarga y manejar posibles errores.
+
+Solución:
+
+codigo python
+
+import aiohttp
+import asyncio
+import os
+
+# Función asíncrona para descargar un archivo
+async def descargar_archivo(session, url, nombre_archivo):
+    try:
+        async with session.get(url) as response:
+            if response.status == 200:
+                with open(nombre_archivo, 'wb') as archivo:
+                    while True:
+                        chunk = await response.content.read(1024)
+                        if not chunk:
+                            break
+                        archivo.write(chunk)
+                print(f"Descarga completada: {nombre_archivo}")
+            else:
+                print(f"Error en la descarga: {response.status}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Función asíncrona principal
+async def main():
+    urls = input("Ingrese las URLs separadas por comas: ").split(',')
+    async with aiohttp.ClientSession() as session:
+        tareas = []
+        for i, url in enumerate(urls):
+            nombre_archivo = f"archivo_{i}.txt"
+            tarea = asyncio.create_task(descargar_archivo(session, url.strip(), nombre_archivo))
+            tareas.append(tarea)
+        await asyncio.gather(*tareas)
+
+# Ejecutar la aplicación
+asyncio.run(main())
+Instrucciones para el usuario:
+
+Implementa una función asíncrona descargar_archivo que descargue un archivo desde una URL.
+
+Implementa una función asíncrona main que maneje la descarga de múltiples archivos.
+
+Utiliza aiohttp para realizar las solicitudes HTTP asíncronas.
+
+Ejecuta el código y sigue las instrucciones para ingresar las URLs de los archivos a descargar.
+

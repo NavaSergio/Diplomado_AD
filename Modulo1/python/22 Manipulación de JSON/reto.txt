@@ -1,0 +1,48 @@
+Reto: Crea una aplicación que lea un archivo JSON que contiene una lista de libros con información como título, autor, año de publicación y género. Luego, permite al usuario buscar libros por autor y muestra los resultados en formato JSON.
+
+Solución:
+
+Codigo python:
+
+import json
+
+# Función para leer el archivo JSON
+def leer_libros(archivo):
+    with open(archivo, 'r') as file:
+        return json.load(file)
+
+# Función para buscar libros por autor
+def buscar_libros_por_autor(libros, autor):
+    return [libro for libro in libros if libro['autor'] == autor]
+
+# Función para mostrar los resultados en formato JSON
+def mostrar_resultados(resultados):
+    print(json.dumps(resultados, indent=4))
+
+# Archivo JSON de ejemplo (libros.json)
+# [
+#     {"titulo": "1984", "autor": "George Orwell", "año": 1949, "género": "Ciencia ficción"},
+#     {"titulo": "El Gran Gatsby", "autor": "F. Scott Fitzgerald", "año": 1925, "género": "Novela"},
+#     {"titulo": "Cien años de soledad", "autor": "Gabriel García Márquez", "año": 1967, "género": "Realismo mágico"}
+# ]
+
+# Leer el archivo JSON
+libros = leer_libros('libros.json')
+
+# Buscar libros por autor
+autor = input("Ingrese el nombre del autor: ")
+resultados = buscar_libros_por_autor(libros, autor)
+
+# Mostrar los resultados en formato JSON
+mostrar_resultados(resultados)
+Instrucciones para el usuario:
+
+Crea un archivo JSON llamado libros.json con una lista de libros.
+
+Implementa una función leer_libros para leer el archivo JSON.
+
+Implementa una función buscar_libros_por_autor para buscar libros por autor.
+
+Implementa una función mostrar_resultados para mostrar los resultados en formato JSON.
+
+Ejecuta el código y sigue las instrucciones para buscar libros por autor.

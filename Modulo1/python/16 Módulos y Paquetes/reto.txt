@@ -1,0 +1,11 @@
+Crea un directorio llamado calculadora.
+
+Dentro de calculadora, crea dos archivos: aritmetica.py y geometria.py.
+
+Copia el código correspondiente a cada archivo.
+
+Crea un archivo __init__.py dentro de calculadora (puede estar vacío).
+
+Crea un archivo script_principal.py en el mismo nivel que calculadora y copia el código correspondiente.
+
+Ejecuta script_principal.py para ver los resultados.

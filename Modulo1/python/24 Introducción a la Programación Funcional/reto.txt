@@ -1,0 +1,25 @@
+Reto: Implementa una función recursiva que calcule el n-ésimo término de la secuencia de Fibonacci utilizando recursión de cola. Luego, utiliza esta función para calcular y mostrar los primeros 10 términos de la secuencia de Fibonacci.
+
+Solución:
+
+codigo python:
+
+# Función recursiva para calcular el n-ésimo término de Fibonacci con recursión de cola
+def fibonacci_cola(n, a=0, b=1):
+    if n == 0:
+        return a
+    elif n == 1:
+        return b
+    else:
+        return fibonacci_cola(n - 1, b, a + b)
+
+# Calcular y mostrar los primeros 10 términos de la secuencia de Fibonacci
+for i in range(10):
+    print(f"Fibonacci({i}) = {fibonacci_cola(i)}")
+Instrucciones para el usuario:
+
+Implementa una función fibonacci_cola que calcule el n-ésimo término de la secuencia de Fibonacci utilizando recursión de cola.
+
+Utiliza esta función para calcular y mostrar los primeros 10 términos de la secuencia de Fibonacci.
+
+Ejecuta el código y verifica que los resultados sean correctos.

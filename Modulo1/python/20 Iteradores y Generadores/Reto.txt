@@ -1,0 +1,23 @@
+Reto: Crea un generador que produzca la secuencia de Fibonacci hasta un número dado de términos. Luego, utiliza este generador para calcular la suma de los primeros 10 términos de la secuencia de Fibonacci.
+
+Solución:
+
+Codigo python:
+
+# Generador para producir la secuencia de Fibonacci
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+# Uso del generador para calcular la suma de los primeros 10 términos de Fibonacci
+suma = sum(fibonacci(10))
+print(f"Suma de los primeros 10 términos de Fibonacci: {suma}")
+Instrucciones para el usuario:
+
+Crea un generador fibonacci que produzca la secuencia de Fibonacci hasta un número dado de términos.
+
+Utiliza este generador para calcular la suma de los primeros 10 términos de la secuencia de Fibonacci.
+
+Ejecuta el código y verifica que la suma sea correcta.

@@ -1,0 +1,54 @@
+Reto: Crea una aplicación que lea un archivo CSV que contiene información de empleados (nombre, edad, salario) y permita al usuario buscar empleados por salario mínimo. Luego, muestra los resultados en formato CSV.
+
+Solución:
+
+Codigo python:
+
+import csv
+
+# Función para leer el archivo CSV
+def leer_empleados(archivo):
+    with open(archivo, 'r') as file:
+        reader = csv.DictReader(file)
+        return list(reader)
+
+# Función para buscar empleados por salario mínimo
+def buscar_empleados_por_salario(empleados, salario_minimo):
+    return [empleado for empleado in empleados if float(empleado['salario']) >= salario_minimo]
+
+# Función para escribir los resultados en un archivo CSV
+def escribir_resultados(resultados, archivo):
+    with open(archivo, 'w', newline='') as file:
+        campos = ["nombre", "edad", "salario"]
+        writer = csv.DictWriter(file, fieldnames=campos)
+        writer.writeheader()
+        writer.writerows(resultados)
+
+# Archivo CSV de ejemplo (empleados.csv)
+# nombre,edad,salario
+# Juan,30,3000
+# Ana,25,2500
+# Pedro,35,4000
+
+# Leer el archivo CSV
+empleados = leer_empleados('empleados.csv')
+
+# Buscar empleados por salario mínimo
+salario_minimo = float(input("Ingrese el salario mínimo: "))
+resultados = buscar_empleados_por_salario(empleados, salario_minimo)
+
+# Escribir los resultados en un archivo CSV
+escribir_resultados(resultados, 'resultados.csv')
+print("Resultados escritos en archivo resultados.csv")
+Instrucciones para el usuario:
+
+Crea un archivo CSV llamado empleados.csv con información de empleados.
+
+Implementa una función leer_empleados para leer el archivo CSV.
+
+Implementa una función buscar_empleados_por_salario para buscar empleados por salario mínimo.
+
+Implementa una función escribir_resultados para escribir los resultados en un archivo CSV.
+
+Ejecuta el código y sigue las instrucciones para buscar empleados por salario mínimo.
+

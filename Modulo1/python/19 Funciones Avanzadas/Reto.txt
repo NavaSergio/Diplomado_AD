@@ -1,0 +1,40 @@
+Reto con Dificultad Alta
+Reto: Crea un decorador que registre el tiempo de ejecución de cualquier función. Luego, aplícalo a una función que realiza una operación que tarda un tiempo variable (por ejemplo, una función que realiza un bucle con un número de iteraciones variable).
+
+Solución:
+
+Codigo python:
+
+import time
+
+# Decorador para registrar el tiempo de ejecución
+def registrar_tiempo(func):
+    def envoltura(*args, **kwargs):
+        inicio = time.time()
+        resultado = func(*args, **kwargs)
+        fin = time.time()
+        print(f"Tiempo de ejecución de {func.__name__}: {fin - inicio} segundos")
+        return resultado
+    return envoltura
+
+# Función que realiza una operación que tarda un tiempo variable
+@registrar_tiempo
+def operacion_lenta(iteraciones):
+    suma = 0
+    for i in range(iteraciones):
+        suma += i
+        time.sleep(0.001)  # Simula un tiempo de espera
+    return suma
+
+# Uso del decorador
+resultado = operacion_lenta(1000)
+print(f"Resultado de la operación: {resultado}")
+
+
+Instrucciones para el usuario:
+
+Crea un decorador registrar_tiempo que registre el tiempo de ejecución de cualquier función.
+
+Aplica el decorador a una función operacion_lenta que realiza un bucle con un número de iteraciones variable y simula un tiempo de espera en cada iteración.
+
+Ejecuta la función operacion_lenta con diferentes números de iteraciones y observa el tiempo de ejecución registrado por el decorador.
